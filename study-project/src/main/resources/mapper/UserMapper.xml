@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.luobi.study.project.springboot.mapper.UserMapper">
+
+    <sql id="userListCondition">
+        <if test="id != null">
+            AND id = #{id}
+        </if>
+        <if test="name != null">
+            AND name like #{name}
+        </if>
+        <if test="gender != null">
+            AND gender = #{gender}
+        </if>
+        <if test="age != null">
+            AND age = #{age}
+        </if>
+        <if test="phone != null">
+            AND phone = #{phone}
+        </if>
+        <if test="email != null">
+            AND email = #{email}
+        </if>
+        <if test="startDate != null">
+            AND DATE_FORMAT(registeredDate, '%Y-%m-%d') >= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND DATE_FORMAT(registeredDate, '%Y-%m-%d') <![CDATA[ <= ]]> #{endDate}
+        </if>
+    </sql>
+
+    <sql id="pageCondition">
+        <if test="offset != null and limit != null">
+            LIMIT #{offset}, #{limit}
+        </if>
+    </sql>
+
+    <select id="getUserList" parameterType="userListQueryDto" resultType="user">
+        SELECT
+            id,
+            name,
+            gender,
+            age,
+            phone,
+            email,
+            registeredDate,
+            registeredUserId,
+            modifiedDate,
+            modifiedUserId
+        FROM
+            tb_user
+        <where>
+            <include refid="userListCondition"></include>
+        </where>
+        <include refid="pageCondition"></include>
+    </select>
+
+    <select id="getUserCount" parameterType="userListQueryDto" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            tb_user
+        <where>
+            <include refid="userListCondition"></include>
+        </where>
+    </select>
+
+    <select id="getUserById" parameterType="string" resultType="user">
+        SELECT
+            id,
+            name,
+            gender,
+            age,
+            phone,
+            email,
+            registeredDate,
+            registeredUserId,
+            modifiedDate,
+            modifiedUserId
+        FROM
+            tb_user
+        WHERE id = #{userId}
+    </select>
+
+    <insert id="addUser" parameterType="userRegisterDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            tb_user
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="gender != null">gender=#{gender},</if>
+            <if test="age != null">age=#{age},</if>
+            <if test="phone != null">phone=#{phone},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="registeredUserId != null">
+                registeredUserId=#{registeredUserId},
+                modifiedUserId=#{registeredUserId},
+            </if>
+            registeredDate=NOW(),
+            modifiedDate=NOW()
+        </set>
+    </insert>
+
+    <update id="updateUser" parameterType="userUpdateDto">
+        UPDATE
+            tb_user
+        <set>
+            <if test="name != null">name=#{name},</if>
+            <if test="gender != null">gender=#{gender},</if>
+            <if test="age != null">age=#{age},</if>
+            <if test="phone != null">phone=#{phone},</if>
+            <if test="email != null">email=#{email},</if>
+            <if test="modifiedUserId != null">modifiedUserId=#{modifiedUserId},</if>
+            modifiedDate=NOW()
+        </set>
+        WHERE
+            id=#{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="list">
+        DELETE FROM
+            tb_user
+        WHERE
+            id
+        <foreach collection="list" item="id" index="index" open="in (" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,10 @@
+# Server
+server:
+  port: 8086
+  servlet:
+    context-path: /skill
+
+spring:
+  mvc:
+    path match:
+      matching-strategy: ant-path-matcher

@@ -1,0 +1,30 @@
+# Server
+server:
+  port: 8085
+  servlet:
+    context-path: /project
+
+spring:
+  # MySQL
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.50.5:3306/study_test?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+  # Redis
+  redis:
+    host: 192.168.50.5
+    port: 6379
+  mvc:
+    path match:
+      matching-strategy: ant-path-matcher
+
+  #spring集成Mybatis环境
+  #pojo别名扫描包
+mybatis:
+  type-aliases-package: com.luobi.study.project
+  #加载Mybatis映射文件
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #开启MyBatis的SQL日志
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
