@@ -19,12 +19,12 @@ spring:
     path match:
       matching-strategy: ant-path-matcher
 
-  #spring集成Mybatis环境
-  #pojo别名扫描包
+# Spring Boot 整合 Mybatis
 mybatis:
+  # POJO 别名扫描包
   type-aliases-package: com.luobi.study.project
-  #加载Mybatis映射文件
+  # 加载 Mybatis 映射文件
   mapper-locations: classpath:mapper/*Mapper.xml
-  #开启MyBatis的SQL日志
+  # 开启 MyBatis 的 SQL 日志
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

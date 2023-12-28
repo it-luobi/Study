@@ -8,7 +8,7 @@
             AND id = #{id}
         </if>
         <if test="name != null">
-            AND name like #{name}
+            AND name LIKE #{name}
         </if>
         <if test="gender != null">
             AND gender = #{gender}
@@ -51,9 +51,9 @@
         FROM
             tb_user
         <where>
-            <include refid="userListCondition"></include>
+            <include refid="userListCondition"/>
         </where>
-        <include refid="pageCondition"></include>
+        <include refid="pageCondition"/>
     </select>
 
     <select id="getUserCount" parameterType="userListQueryDto" resultType="int">
@@ -62,7 +62,7 @@
         FROM
             tb_user
         <where>
-            <include refid="userListCondition"></include>
+            <include refid="userListCondition"/>
         </where>
     </select>
 
@@ -87,17 +87,27 @@
         INSERT INTO
             tb_user
         <set>
-            <if test="name != null">name=#{name},</if>
-            <if test="gender != null">gender=#{gender},</if>
-            <if test="age != null">age=#{age},</if>
-            <if test="phone != null">phone=#{phone},</if>
-            <if test="email != null">email=#{email},</if>
-            <if test="registeredUserId != null">
-                registeredUserId=#{registeredUserId},
-                modifiedUserId=#{registeredUserId},
+            <if test="name != null">
+                name = #{name},
             </if>
-            registeredDate=NOW(),
-            modifiedDate=NOW()
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="registeredUserId != null">
+                registeredUserId = #{registeredUserId},
+                modifiedUserId = #{registeredUserId},
+            </if>
+            registeredDate = NOW(),
+            modifiedDate = NOW()
         </set>
     </insert>
 
@@ -105,16 +115,28 @@
         UPDATE
             tb_user
         <set>
-            <if test="name != null">name=#{name},</if>
-            <if test="gender != null">gender=#{gender},</if>
-            <if test="age != null">age=#{age},</if>
-            <if test="phone != null">phone=#{phone},</if>
-            <if test="email != null">email=#{email},</if>
-            <if test="modifiedUserId != null">modifiedUserId=#{modifiedUserId},</if>
-            modifiedDate=NOW()
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="modifiedUserId != null">
+                modifiedUserId = #{modifiedUserId},
+            </if>
+            modifiedDate = NOW()
         </set>
         WHERE
-            id=#{id}
+            id = #{id}
     </update>
 
     <delete id="deleteUser" parameterType="list">

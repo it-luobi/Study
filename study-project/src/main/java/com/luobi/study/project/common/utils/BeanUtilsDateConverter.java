@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
+@SuppressWarnings("unchecked")
 public class BeanUtilsDateConverter implements Converter {
 
 	private static final String[] SUPPORT_FORMATS = {DateUtils.DATE_FORMAT, DateUtils.DATE_TIME_FORMAT,
